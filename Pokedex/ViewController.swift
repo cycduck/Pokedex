@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     private var pokemonListURLArr: [String] = []
     var paginatedList: [PokemonDetailInfo] = []
     var text: String = ""
+    var fetchlistCounter = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,9 @@ class ViewController: UIViewController {
     
     func fetchList(offset: Int) {
         
-        print("fetch list called .../pokemon?offset=\(offset + 20)&limit=20")
+        fetchlistCounter += 1
+    
+        print("fetch list called \(fetchlistCounter)times .../pokemon?offset=\(offset + 20)&limit=20")
         let url = "https://pokeapi.co/api/v2/pokemon?offset=\(offset)&limit=20"
         
         AF.request(url).responseDecodable(of:PokemonListURLContainer.self) { response in
@@ -36,9 +39,9 @@ class ViewController: UIViewController {
                 print("error retriving list")
                 return
             }
-            
-            for info in safeList.results {
 
+            for info in safeList.results {
+                
                 self.pokemonListURLArr.append(info.url)
             }
             
@@ -48,11 +51,12 @@ class ViewController: UIViewController {
     
     func fetchDetail(pokemonURLList: [String], offset: Int) {
         
-        print(paginatedList)
-        for info in pokemonURLList {
+        
+        for i in offset..<pokemonURLList.count {
             
-            AF.request(info).responseDecodable(of: PokemonDetailInfo.self) { response in
-                
+            AF.request(pokemonURLList[i]).responseDecodable(of: PokemonDetailInfo.self) { response in
+                print("calling \(pokemonURLList[i]) with index \(i)")
+
                 guard let safeList = response.value else {
                     print("error retriving list")
                     return
@@ -60,6 +64,8 @@ class ViewController: UIViewController {
                 
                 self.paginatedList.append(safeList)
                 
+                print("L67 paginatedList.count \(self.paginatedList.count) pokemonListURLArr.count \(self.pokemonListURLArr.count)")
+                // BUG: by the 3rd time paginatedList.count 60 pokemonListURLArr.count 40
                 if self.paginatedList.count == self.pokemonListURLArr.count {
                     print("\(self.paginatedList.count) \(self.pokemonListURLArr.count)")
 
@@ -68,8 +74,9 @@ class ViewController: UIViewController {
                     
                     // maybe check if the cell is last in your code, so only reloads when the last cell is displayed
                     // you can do this by just keeping the index path in a "lastReloadedCell
+                    print("L77 what is offset % 20 \(offset % 20) ")
                     if offset == 0 || offset % 20 == 0 {
-                        print("RELOADING")
+                        print("L79 RELOADING... fetchlistcounter \(self.fetchlistCounter)")
                         self.tableView.reloadData()
                     }
                 }
@@ -105,27 +112,23 @@ extension ViewController: UITableViewDelegate {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         // this matches the storyboard ID
         
-        // https://medium.com/@emanharout/nifty-ways-of-passing-data-between-view-controllers-part-1-2-4d050d90b2e2
+        // https://medium.com/@emanharout/nifty-ways-of-passing-data-between-view-controllers-part-1-2-4d050d90b2e2	
         // https://learnappmaking.com/pass-data-between-view-controllers-swift-how-to/
         if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "PokemonDetail") as? PokemonDetailViewController {
            // Pass Data
             secondViewController.dataStorageVariable = selected
            // Present Second View
             self.navigationController?.pushViewController(secondViewController, animated: true)
-
-          // present(secondViewController, animated: true, completion: nil) // this eliminates the NC
-
+           // present(secondViewController, animated: true, completion: nil) // this eliminates the NC
         }
     }
     
-    // https://stackoverflow.com/questions/39015228/detect-when-uitableview-has-scrolled-to-the-bottom
+    // https://stackoverflow.com/questions/39015228/detect-when-uitableview-has-scrolled-to-the-bottom	
     // https://developer.apple.com/documentation/uikit/uitableviewdelegate/1614883-tableview
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-//        print("\(indexPath.row + 1) % 20 \((indexPath.row + 1) % 20), \((indexPath.row + 1) % 20 == 0)")
-//        if indexPath.row != 8 && (indexPath.row + 1) % 20 == 0  {
         print("\(indexPath.row + 1) == \(paginatedList.count) \((indexPath.row + 1) == paginatedList.count)")
-        if (indexPath.row + 1) == paginatedList.count || indexPath.row + 1 > 39 {
+        if (indexPath.row + 1) == paginatedList.count {
 
             fetchList(offset: indexPath.row + 1)
         }
