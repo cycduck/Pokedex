@@ -112,14 +112,19 @@ extension ViewController: UITableViewDelegate {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         // this matches the storyboard ID
         
+        // https://medium.com/@emanharout/nifty-ways-of-passing-data-between-view-controllers-part-1-2-4d050d90b2e2	
+        // https://learnappmaking.com/pass-data-between-view-controllers-swift-how-to/
         if let secondViewController = storyboard?.instantiateViewController(withIdentifier: "PokemonDetail") as? PokemonDetailViewController {
            // Pass Data
             secondViewController.dataStorageVariable = selected
            // Present Second View
             self.navigationController?.pushViewController(secondViewController, animated: true)
+           // present(secondViewController, animated: true, completion: nil) // this eliminates the NC
         }
     }
     
+    // https://stackoverflow.com/questions/39015228/detect-when-uitableview-has-scrolled-to-the-bottom	
+    // https://developer.apple.com/documentation/uikit/uitableviewdelegate/1614883-tableview
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         print("\(indexPath.row + 1) == \(paginatedList.count) \((indexPath.row + 1) == paginatedList.count)")
