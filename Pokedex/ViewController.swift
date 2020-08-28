@@ -123,7 +123,7 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         print("\(indexPath.row + 1) == \(paginatedList.count) \((indexPath.row + 1) == paginatedList.count)")
-        if (indexPath.row + 1) == paginatedList.count || indexPath.row + 1 > 39 {
+        if (indexPath.row + 1) == paginatedList.count {
 
             fetchList(offset: indexPath.row + 1)
         }
