@@ -27,6 +27,7 @@ class PokemonDetailViewController: UIViewController {
         
         pokemonName.text = safeData.name
         pokemonIndex.text = DataStylize.indexConvert(id: safeData.id)
+        loadImage(imageURL: safeData.sprites.front_default)
         
         
         pokemonName.sizeToFit()
@@ -34,6 +35,15 @@ class PokemonDetailViewController: UIViewController {
         pokemonName.translatesAutoresizingMaskIntoConstraints = true
         pokemonIndex.sizeToFit()
         pokemonIndex.translatesAutoresizingMaskIntoConstraints = true
+    }
+    
+    func loadImage(imageURL: URL) {
+        AF.request(imageURL).responseImage { response in
+            
+            if case .success(let image) = response.result {
+                self.pokemonImage.image = image
+            }
+        }
     }
 }
 

@@ -112,7 +112,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
-            landmarkName = "tableView(_:willDisplay:forRowAt:)"
+            landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,6 +314,7 @@
             uuid = "1D313C41-E340-46B4-B85D-2D479F423411"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
+            condition = "info.url.contains(&quot;https://pokeapi.co/api/v2/pokemon/11/&quot;)"
             continueAfterRunningActions = "No"
             filePath = "Pokedex/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
@@ -322,6 +323,14 @@
             endingLineNumber = "45"
             landmarkName = "fetchList(offset:)"
             landmarkType = "7">
+            <Actions>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  <ActionContent
+                     consoleCommand = "po pokemonListURLArr">
+                  </ActionContent>
+               </BreakpointActionProxy>
+            </Actions>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

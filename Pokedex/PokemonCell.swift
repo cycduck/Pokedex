@@ -29,8 +29,6 @@ class PokemonCell: UITableViewCell {
         AF.request(imageURL).responseImage { response in
             
             if case .success(let image) = response.result {
-//                let type1 = type(of: image)
-//                print(type1)
                 self.pokeImage.image = image
             }
         }
