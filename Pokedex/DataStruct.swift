@@ -8,6 +8,7 @@
 
 import Foundation
 
+// FROM: https://pokeapi.co/api/v2/pokemon
 struct PokemonListURLContainer: Decodable {
     let results: [PokemonListURL]
 }
@@ -17,8 +18,7 @@ struct PokemonListURL: Decodable {
     let url: String
 }
 
-
-
+// FROM: https://pokeapi.co/api/v2/pokemon/1/
 struct PokemonDetailInfo: Decodable {
     let id: Int
     let name: String
@@ -37,4 +37,14 @@ struct TypeList: Decodable {
 
 struct TypeSlot: Decodable {
     let name: String
+}
+
+// FROM https://pokeapi.co/api/v2/pokemon-species/1/
+
+struct PokemonSpecies: Decodable {
+    let flavor_text_entries: [PokemonFlavorText]
+}
+
+struct PokemonFlavorText: Decodable {
+    let flavor_text: String
 }

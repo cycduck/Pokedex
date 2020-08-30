@@ -109,7 +109,7 @@ extension ViewController: UITableViewDelegate {
         
         //https://learnappmaking.com/pass-data-between-view-controllers-swift-how-to/
         // load view controller from storyboard, Main cuz Main.storyboard
-//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         // this matches the storyboard ID
         
         // https://medium.com/@emanharout/nifty-ways-of-passing-data-between-view-controllers-part-1-2-4d050d90b2e2	

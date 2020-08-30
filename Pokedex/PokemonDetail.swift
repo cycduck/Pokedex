@@ -25,9 +25,10 @@ class PokemonDetailViewController: UIViewController {
         
         guard let safeData = dataStorageVariable else { return }
         
-        pokemonName.text = safeData.name
+        pokemonName.text = safeData.name.capitalized
         pokemonIndex.text = DataStylize.indexConvert(id: safeData.id)
         loadImage(imageURL: safeData.sprites.front_default)
+        fetchDescription(id: safeData.id)
         
         
         pokemonName.sizeToFit()
@@ -43,6 +44,19 @@ class PokemonDetailViewController: UIViewController {
             if case .success(let image) = response.result {
                 self.pokemonImage.image = image
             }
+        }
+    }
+    
+    func fetchDescription(id: Int) {
+        AF.request("https://pokeapi.co/api/v2/pokemon-species/\(id)/").responseDecodable(of: PokemonSpecies.self) { response in
+            
+            guard let safeData = response.value else {
+                
+                print("error retriving list")
+                return
+            }
+            
+            self.pokemonText.text = safeData.flavor_text_entries[0].flavor_text
         }
     }
 }
