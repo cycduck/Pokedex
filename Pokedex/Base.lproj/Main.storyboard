@@ -137,7 +137,7 @@
                                     <constraint firstAttribute="height" constant="150" id="knH-IK-boZ"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Gw-T2-Shd">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gw-T2-Shd">
                                 <rect key="frame" x="22" y="386.5" width="370" height="455.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="370" id="oFs-ry-wuX"/>

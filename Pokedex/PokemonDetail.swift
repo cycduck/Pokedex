@@ -30,12 +30,11 @@ class PokemonDetailViewController: UIViewController {
         loadImage(imageURL: safeData.sprites.front_default)
         fetchDescription(id: safeData.id)
         
-        
-        pokemonName.sizeToFit()
-//      https://stackoverflow.com/questions/38714272/how-to-make-uitextview-height-dynamic-according-to-text-length
-        pokemonName.translatesAutoresizingMaskIntoConstraints = true
-        pokemonIndex.sizeToFit()
-        pokemonIndex.translatesAutoresizingMaskIntoConstraints = true
+//        pokemonName.sizeToFit()
+////      https://stackoverflow.com/questions/38714272/how-to-make-uitextview-height-dynamic-according-to-text-length
+//        pokemonName.translatesAutoresizingMaskIntoConstraints = true
+//        pokemonIndex.sizeToFit()
+//        pokemonIndex.translatesAutoresizingMaskIntoConstraints = true
     }
     
     func loadImage(imageURL: URL) {
@@ -56,9 +55,19 @@ class PokemonDetailViewController: UIViewController {
                 return
             }
             
-            self.pokemonText.text = safeData.flavor_text_entries[0].flavor_text
+            self.textConvert(flavoredText: safeData.flavor_text_entries[0].flavor_text)
         }
     }
+    
+    // https://www.hackingwithswift.com/articles/108/how-to-use-regular-expressions-in-swift
+    func textConvert(flavoredText: String) {
+        
+        let range = NSRange(location: 0, length: flavoredText.utf16.count)
+        
+        let regex = try! NSRegularExpression(pattern: "(\\n|\\f)")
+        
+        let replacedText = regex.stringByReplacingMatches(in: flavoredText, options: [], range: range, withTemplate: " ")
+        
+        self.pokemonText.text = replacedText
+    }
 }
-
-// how to make it show pokemon as we scroll???
