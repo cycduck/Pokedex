@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         fetchList(offset: 0)
     }
     
+    // Retrieves a lit of URL appends to pokemonListURLArr []
     func fetchList(offset: Int) {
         
         fetchlistCounter += 1
@@ -49,13 +50,14 @@ class ViewController: UIViewController {
         }
     }
     
+    // For each of the URL inside pokemonListURLArr [], fetch data, put to paginatedList
+    // offset is based on the number of cells in display, which is based on the paginatedList
     func fetchDetail(pokemonURLList: [String], offset: Int) {
         
-        
+        // pokemonListURLArr [] contains all URLs, must use the offset to avoid double entries
         for i in offset..<pokemonURLList.count {
             
             AF.request(pokemonURLList[i]).responseDecodable(of: PokemonDetailInfo.self) { response in
-                print("calling \(pokemonURLList[i]) with index \(i)")
 
                 guard let safeList = response.value else {
                     print("error retriving list")
@@ -64,19 +66,12 @@ class ViewController: UIViewController {
                 
                 self.paginatedList.append(safeList)
                 
-                print("L67 paginatedList.count \(self.paginatedList.count) pokemonListURLArr.count \(self.pokemonListURLArr.count)")
-                // BUG: by the 3rd time paginatedList.count 60 pokemonListURLArr.count 40
                 if self.paginatedList.count == self.pokemonListURLArr.count {
-                    print("\(self.paginatedList.count) \(self.pokemonListURLArr.count)")
 
                     // sorting resource: http://studyswift.blogspot.com/2017/05/how-to-sort-array-and-dictionary.html
                     self.paginatedList.sort (by: {$0.id < $1.id})
                     
-                    // maybe check if the cell is last in your code, so only reloads when the last cell is displayed
-                    // you can do this by just keeping the index path in a "lastReloadedCell
-                    print("L77 what is offset % 20 \(offset % 20) ")
                     if offset == 0 || offset % 20 == 0 {
-                        print("L79 RELOADING... fetchlistcounter \(self.fetchlistCounter)")
                         self.tableView.reloadData()
                     }
                 }
@@ -104,13 +99,8 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selected = paginatedList[indexPath.row]
-        print(selected.name)
         
-        //https://learnappmaking.com/pass-data-between-view-controllers-swift-how-to/
-        // load view controller from storyboard, Main cuz Main.storyboard
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        // this matches the storyboard ID
+        let selected = paginatedList[indexPath.row]
         
         // https://medium.com/@emanharout/nifty-ways-of-passing-data-between-view-controllers-part-1-2-4d050d90b2e2	
         // https://learnappmaking.com/pass-data-between-view-controllers-swift-how-to/

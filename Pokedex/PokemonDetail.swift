@@ -1,11 +1,3 @@
-//
-//  PokemonDetail.swift
-//  Pokedex
-//
-//  Created by Kelly Ho on 2020-08-23.
-//  Copyright © 2020 Inc. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import Alamofire
@@ -29,12 +21,6 @@ class PokemonDetailViewController: UIViewController {
         pokemonIndex.text = DataStylize.indexConvert(id: safeData.id)
         loadImage(imageURL: safeData.sprites.front_default)
         fetchDescription(id: safeData.id)
-        
-//        pokemonName.sizeToFit()
-////      https://stackoverflow.com/questions/38714272/how-to-make-uitextview-height-dynamic-according-to-text-length
-//        pokemonName.translatesAutoresizingMaskIntoConstraints = true
-//        pokemonIndex.sizeToFit()
-//        pokemonIndex.translatesAutoresizingMaskIntoConstraints = true
     }
     
     func loadImage(imageURL: URL) {
